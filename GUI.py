@@ -1,8 +1,11 @@
 from tkinter import *
 from tkinter.scrolledtext import ScrolledText
-from functions import *
-import requests
-import webbrowser
+from RandomPassword import randomPassword
+
+from EmailEdit import *
+from CreateDoc import *
+from SendEmail import *
+from EmailEdit import *
 
 class MPMGUI(Frame):
     def __init__(self, title, master=None):
@@ -10,7 +13,6 @@ class MPMGUI(Frame):
         self.grid()
         self.master.geometry("575x550")
         self.master.title(title)
-
 
         self.DisplayedInfo = " "
         self.MPM_info = " "
@@ -21,10 +23,9 @@ class MPMGUI(Frame):
         self.emailInfo = ScrolledText(self, width=90, font=("Helvetica",8), borderwidth=5)
         self.emailInfo.grid(row=1, column=0, columnspan=20)
 
-        #self.executeButton = Button(self, text='Enter', command = stringEmail(emailInfo.get("1.0", END)))
+        # self.executeButton = Button(self, text='Enter', command = stringEmail(emailInfo.get("1.0", END)))
         self.executeButton = Button(self, text='Enter', command=lambda: self.updateMPM())
         self. executeButton.grid(row=2, column=0, columnspan=20, pady=5, ipadx=3, ipady=3)
-
 
         self.MPMNumber = Label(self, text="      MPM# :", borderwidth=5)
         self. MPMNumber.grid(row=3, column=9, sticky="e")
@@ -54,15 +55,37 @@ class MPMGUI(Frame):
         self.displayLKNumber.delete("1.0", "end-1c")
 
     def updateMPM(self):
+        self.MPM_info = self.retrieve_input()
+        mpmPassword = randomPassword()
+        updatedEmail = updateEmailInfo(self.MPM_info, mpmPassword)
+        mpmNumber = getMPMnumber(updatedEmail)
+        terminalID = getTerminalID(updatedEmail)
+        outgoingEmail = getOutGoingEmail(updatedEmail)
 
+        changeDirectory()
+        createSaveDoc(updatedEmail)
+        #sendEmail(outgoingEmail, mpmNumber, mpmPassword)
+        self.MPM_info = updatedEmail
+        self.clear_text()
+        self.emailInfo.insert("end", self.MPM_info)
+
+        self.displayMPM.insert("end", mpmNumber)
+        self.displayPassword.insert("end", mpmPassword)
+        self.displayLKNumber.insert("end", terminalID)
+
+
+
+        '''
         changeDirectory()
         self.MPM_info = self.retrieve_input()
         originEmail = self.MPM_info
         mpmPassword = randomPassword()
         updatedEmail = updateEmailInfo(originEmail, mpmPassword)
+        
         mpmNumber = getMPMnumber(updatedEmail)
         terminalID = getTerminalID(updatedEmail)
         outgoingEmail = getOutGoingEmail(updatedEmail)
+        
         createSaveDoc(updatedEmail)
         sendEmail(outgoingEmail, mpmNumber, mpmPassword)
         self.MPM_info = updatedEmail
@@ -72,58 +95,14 @@ class MPMGUI(Frame):
         self.displayMPM.insert("end", mpmNumber)
         self.displayPassword.insert("end", mpmPassword)
         self.displayLKNumber.insert("end", terminalID)
+        '''
 
 #http://interactivepython.org/runestone/static/thinkcspy/GUIandEventDrivenProgramming/toctree.html
 #  <- Great recourse for tkinter
 
 if __name__ == '__main__':
-    #app = MPMGUI('MPM')
-    #app.mainloop()
-
-    #res = requests.get('https://www.mycryptopay.com/devel/genesys/')
-    '''
-    try:
-        res.raise_for_status()
-    except Exception as exc:
-        print('There was a problem: %s' % (exc))
-    '''
-    url = 'https://www.mycryptopay.com/devel/genesys/'
-    values = {
-        'login_name_input': 'burchjames9',
-        'login_password_input': 'Thoraxc7',
-        'submit_login': 'submit_login'
-    }
-
-
-    r = requests.get(url)
-
-    print(r.content)
-    test = input()
-    r = requests.post(url, data=values)
-    if r.status_code == requests.codes.ok:
-        print("Worked")
-    else:
-        print("Did not Work")
-    print(r.content)
-
-
-    print(r.url)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    app = MPMGUI('MPM')
+    app.mainloop()
 
 
     '''
