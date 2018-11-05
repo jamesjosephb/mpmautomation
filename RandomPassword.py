@@ -32,5 +32,8 @@ def randomInt():
     return str(random.randint(2, 9))
 
 def randomSpecialCharacter():
-    specialCharacter = ['$', '!', '@', '#', '%', '*']
-    return random.choice(specialCharacter)
+    specialCharacter = ['$', '!', '@', '#', '%']    # should include the special characater * but
+    return random.choice(specialCharacter)          # it does not get sent with the post request correctly
+
+if __name__ == '__main__':
+    print(randomPassword())

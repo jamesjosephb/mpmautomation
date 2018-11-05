@@ -5,7 +5,7 @@ from email import encoders
 from email.mime.multipart import MIMEMultipart
 
 
-def sendEmail(outgoingEmail, mpmNumber, mpmPassword):
+def sendEmail(outgoingEmail, mpmNumber, mpmPassword, nameOfSite):
     fromaddr = 'james@getcryptopay.com'
     toaddr = outgoingEmail
 
@@ -27,7 +27,7 @@ Note: The MPM Code and Merchant Password must be entered correctly – observe c
 
 
 
-MPM Code and Merchant Password for:  
+MPM Code and Merchant Password for:  '''+nameOfSite+'''
 
 MPM Code: ''' + mpmNumber + '''
 Merchant Password:  ''' + mpmPassword + '''
@@ -42,11 +42,16 @@ Note: The MPM Code and Merchant Password are case sensitive. Please enter exactl
     quickStart2 = "Quickstart_CryptoPayPreInstallChecklist.pdf"
     quickStart3 = "Quickstart_OnlineConfiguration.pdf"
 
-    attachment1 = open("C:\\Users\TechSupport\\Desktop\\work project\\mpmAutomation\\Quickstart_CryptoPayCoordinatorInstallation.pdf", "rb")
-    attachment2 = open("C:\\Users\TechSupport\\Desktop\\work project\\mpmAutomation\\Quickstart_CryptoPayPreInstallChecklist.pdf", "rb")
-    attachment3 = open("C:\\Users\TechSupport\\Desktop\\work project\\mpmAutomation\\Quickstart_OnlineConfiguration.pdf", "rb")
+    '''___For Windows
+    attachment1 = open("C:\\Users\TechSupport\\Desktop\\workproject\\mpmAutomation\\Quickstart_CryptoPayCoordinatorInstallation.pdf", "rb")
+    attachment2 = open("C:\\Users\TechSupport\\Desktop\\workproject\\mpmAutomation\\Quickstart_CryptoPayPreInstallChecklist.pdf", "rb")
+    attachment3 = open("C:\\Users\TechSupport\\Desktop\\workproject\\mpmAutomation\\Quickstart_OnlineConfiguration.pdf", "rb")
+    '''
 
-
+    '''___For linux___'''
+    attachment1 = open("/home/james/workproject/mpmAutomation/Quickstart_CryptoPayCoordinatorInstallation.pdf", "rb")
+    attachment2 = open("/home/james/workproject/mpmAutomation/Quickstart_CryptoPayPreInstallChecklist.pdf", "rb")
+    attachment3 = open("/home/james/workproject/mpmAutomation/Quickstart_OnlineConfiguration.pdf", "rb")
 
     part1 = MIMEBase('application', 'octet-stream')
     part2 = MIMEBase('application', 'octet-stream')

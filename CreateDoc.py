@@ -1,42 +1,48 @@
 from docxtpl import Document
 import os
-import string
-
 from EmailEdit import getNameOfSite
 from EmailEdit import getCity
+import re
 
 
 # Creates and saves the word doc the the current directory
+
 def createSaveDoc(updatedEmail):
+
+    def checkDuplicateTitle(title):
+
+        for root, dirs, files in os.walk(os.getcwd()):
+            match = 0
+            for name in files:
+                matchobj = re.match(title, name)
+                if matchobj:
+                    #match = matchobj.group()
+                    #print(match)
+                    match = match + 1
+                    #match = len(match)
+            print(match)
+            return match
     document = Document()  # creates doc object
     document.add_paragraph(updatedEmail)  # adds string to doc
-    title = "MPPG credentials for " + getNameOfSite(updatedEmail) + getCity(updatedEmail)
-    for root, dirs, files in os.walk(os.getcwd()):
-        if startswith(title) in files:
-            match = len([files for title in os.getcwd() if os.path.startswith(title)])
-            document.save(title + ' (' + str(match + 1) + ')' + '.docx')
-        else:
-            match = len([files for title in os.getcwd() if os.path.isfile(title)])
-            print(match)
-            document.save(title + ' (' + str(match) + ')' + '.docx')
-    '''
-    for root, dirs, files in os.walk(os.getcwd()):
-        if title in files:
-            match = len([files for title in os.getcwd() if os.path.beginswith(title)])
-            print(match)
-            document.save(title + ' (' + str(match +1) + ')' + '.docx')
-        else:
-            match = len([files for title in os.getcwd() if os.path.isfile(title)])
-            print(match)
-            document.save(title + ' (' + str(match) + ')' + '.docx')
-    '''
+    titleOfDoc = "MPPG credentials for " + getNameOfSite(updatedEmail) + ' ' + getCity(updatedEmail)
+    match = checkDuplicateTitle(titleOfDoc)
+    if match == 0:
+        document.save(titleOfDoc + '.docx')
+    else:
+        titleOfDoc = (titleOfDoc + ' (' + str(match) + ')' + '.docx')
+        document.save(titleOfDoc)
 
 
 
-
-
-        # Changes to the Directory that the word Doc will be saved in
+'''_____Changes to the Directory that the word Doc will be saved in______'''
 def changeDirectory():
+    # os.chdir('C:\\Users\\TechSupport\\Downloads')  # Changes directory from default # testing on windows
+    # os.chdir(r'\\NAS-35-5B-27\Genesys\CryptoPay Knowledge Base_Car Wash\MPM numbers\MPM Passwords') # for windows
+    os.chdir('/sdrive/CryptoPay Knowledge Base_Car Wash/MPM numbers/MPM Passwords')  # for linux
+    #os.chdir('/home/james/Downloads')  # for linux
     # print(os.getcwd())                                # print working directory
-    os.chdir('C:\\Users\\TechSupport\\Downloads')  # Changes directory from default
-    # print(os.getcwd())                                # print working directory
+
+
+
+if __name__ == '__main__':
+    os.chdir(r'\\NAS-35-5B-27\Genesys\CryptoPay Knowledge Base_Car Wash\MPM numbers\MPM Passwords')
